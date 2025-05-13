@@ -6,33 +6,42 @@ import { Link } from "react-router-dom";
 export default function Home() {
   const [snippets, setSnippets] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [editingSnippet, setEditingSnippet] = useState(null);
 
   const addSnippet = (newSnippet) => {
     setSnippets((prev) => [newSnippet, ...prev]);
-    setShowForm(false); // hide form after adding
+    setShowForm(false);
+  };
+
+  const updateSnippet = (updated) => {
+    setSnippets((prev) =>
+      prev.map((s) => (s.id === updated.id ? updated : s))
+    );
+    setEditingSnippet(null);
+    setShowForm(false);
+  };
+
+  const handleEdit = (snippet) => {
+    setEditingSnippet(snippet);
+    setShowForm(true);
   };
 
   const handleTitleClick = () => {
-  setShowForm(false); // Hide the form
-};
-
+    setShowForm(false);
+    setEditingSnippet(null);
+  };
 
   return (
     <div className="p-6 min-h-screen bg-gray-100 flex flex-col items-center">
-<h1 className="text-4xl font-bold mb-8 text-center">
-  <Link
-    to="/"
-    onClick={() => setShowForm(false)}
-    className="hover:underline hover:text-blue-600 transition"
-  >
-    💼 Code Wallet
-  </Link>
-</h1>
-
-
-
-
-
+      <h1 className="text-4xl font-bold mb-8 text-center">
+        <Link
+          to="/"
+          onClick={handleTitleClick}
+          className="hover:underline hover:text-blue-600 transition"
+        >
+          💼 Code Wallet
+        </Link>
+      </h1>
 
       {snippets.length === 0 ? (
         <div className="text-center space-y-6">
@@ -45,23 +54,34 @@ export default function Home() {
               ADD MORE FUNDS
             </button>
           ) : (
-            <SnippetForm onAddSnippet={addSnippet} />
+            <SnippetForm
+              onAddSnippet={addSnippet}
+              onUpdateSnippet={updateSnippet}
+              editingSnippet={editingSnippet}
+            />
           )}
         </div>
       ) : (
         <div className="w-full max-w-4xl space-y-6">
           {showForm ? (
-            <SnippetForm onAddSnippet={addSnippet} />
+            <SnippetForm
+              onAddSnippet={addSnippet}
+              onUpdateSnippet={updateSnippet}
+              editingSnippet={editingSnippet}
+            />
           ) : (
             <button
-              onClick={() => setShowForm(true)}
+              onClick={() => {
+                setEditingSnippet(null);
+                setShowForm(true);
+              }}
               className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 mb-4"
             >
               ADD MORE FUNDS
             </button>
           )}
 
-          <SnippetList snippets={snippets} />
+          <SnippetList snippets={snippets} onEdit={handleEdit} />
         </div>
       )}
     </div>

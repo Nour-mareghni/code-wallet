@@ -1,67 +1,78 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function SnippetForm({ onAddSnippet }) {
+export default function SnippetForm({ onAddSnippet, onUpdateSnippet, editingSnippet }) {
   const [title, setTitle] = useState("");
   const [code, setCode] = useState("");
-  const [tags, setTags] = useState(""); // comma-separated tags for now
+  const [tags, setTags] = useState("");
+
+  useEffect(() => {
+    if (editingSnippet) {
+      setTitle(editingSnippet.title);
+      setCode(editingSnippet.code);
+      setTags(editingSnippet.tags.join(", "));
+    } else {
+      setTitle("");
+      setCode("");
+      setTags("");
+    }
+  }, [editingSnippet]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title.trim() || !code.trim()) {
-      alert("Title and code are required.");
-      return;
-    }
-
     const newSnippet = {
-      id: Date.now().toString(), // simple ID
-      title: title.trim(),
-      code: code.trim(),
-      tags: tags
-        .split(",")
-        .map(tag => tag.trim())
-        .filter(tag => tag),
-      createdAt: new Date().toISOString(),
+      id: editingSnippet?.id || Date.now(),
+      title,
+      code,
+      tags: tags.split(",").map((tag) => tag.trim()),
     };
 
-    onAddSnippet(newSnippet);
-    setTitle("");
-    setCode("");
-    setTags("");
+    if (editingSnippet) {
+      onUpdateSnippet(newSnippet);
+    } else {
+      onAddSnippet(newSnippet);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-xl font-semibold">Add New Snippet</h2>
+    <form onSubmit={handleSubmit} className="space-y-4 bg-white p-4 rounded shadow">
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Title</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full mt-1 p-2 border rounded"
+          required
+        />
+      </div>
 
-      <input
-        type="text"
-        placeholder="Title"
-        className="w-full p-2 border rounded"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Code</label>
+        <textarea
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          rows="4"
+          className="w-full mt-1 p-2 border rounded font-mono text-sm"
+          required
+        />
+      </div>
 
-      <textarea
-        placeholder="Your code..."
-        className="w-full p-2 border rounded font-mono h-40"
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-      />
-
-      <input
-        type="text"
-        placeholder="Tags (comma separated)"
-        className="w-full p-2 border rounded"
-        value={tags}
-        onChange={(e) => setTags(e.target.value)}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Tags (comma separated)</label>
+        <input
+          type="text"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+          className="w-full mt-1 p-2 border rounded"
+        />
+      </div>
 
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
       >
-        Save Snippet
+        {editingSnippet ? "Update Snippet" : "Add Snippet"}
       </button>
     </form>
   );
