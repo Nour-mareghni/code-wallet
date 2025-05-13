@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Editor from "@monaco-editor/react"; // Import Monaco Editor
 
 export default function SnippetForm({ onAddSnippet, onUpdateSnippet, editingSnippet }) {
   const [title, setTitle] = useState("");
@@ -35,7 +36,7 @@ export default function SnippetForm({ onAddSnippet, onUpdateSnippet, editingSnip
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-white p-4 rounded shadow">
+    <form onSubmit={handleSubmit} className="space-y-4 bg-white p-4 rounded shadow w-full max-w-4xl mx-auto">
       <div>
         <label className="block text-sm font-medium text-gray-700">Title</label>
         <input
@@ -47,17 +48,19 @@ export default function SnippetForm({ onAddSnippet, onUpdateSnippet, editingSnip
         />
       </div>
 
+      {/* Code Editor Section */}
       <div>
         <label className="block text-sm font-medium text-gray-700">Code</label>
-        <textarea
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          rows="4"
-          className="w-full mt-1 p-2 border rounded font-mono text-sm"
-          required
+        <Editor
+          height="400px" // Height of the code editor
+          value={code}  // Value passed to Monaco Editor
+          onChange={(value) => setCode(value)}  // Update the code state when the editor changes
+          language="javascript" // Set language for syntax highlighting (JavaScript in this case)
+          theme="vs-dark"  // You can switch between themes like 'vs-light' and 'vs-dark'
         />
       </div>
 
+      {/* Tags Input Section */}
       <div>
         <label className="block text-sm font-medium text-gray-700">Tags (comma separated)</label>
         <input
