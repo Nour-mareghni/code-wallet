@@ -1,26 +1,13 @@
 import { useState } from "react";
+import { Link, useOutletContext } from "react-router-dom";
 import SnippetList from "../features/snippets/SnippetList";
 import SnippetForm from "../features/snippets/SnippetForm";
-import { Link } from "react-router-dom";
 
 export default function Home() {
-  const [snippets, setSnippets] = useState([]);
+  const { snippets, addSnippet, updateSnippet } = useOutletContext();
   const [showForm, setShowForm] = useState(false);
   const [editingSnippet, setEditingSnippet] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
-
-  const addSnippet = (newSnippet) => {
-    setSnippets((prev) => [newSnippet, ...prev]);
-    setShowForm(false);
-  };
-
-  const updateSnippet = (updated) => {
-    setSnippets((prev) =>
-      prev.map((s) => (s.id === updated.id ? updated : s))
-    );
-    setEditingSnippet(null);
-    setShowForm(false);
-  };
 
   const handleEdit = (snippet) => {
     setEditingSnippet(snippet);

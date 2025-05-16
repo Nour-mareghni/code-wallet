@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function SnippetList({ snippets, onEdit }) {
   return (
     <div className="space-y-4">
@@ -8,23 +10,21 @@ export default function SnippetList({ snippets, onEdit }) {
         >
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-xl font-semibold">{snippet.title}</h2>
-            <button
-              onClick={() => onEdit(snippet)}
-              className="text-sm text-blue-600 hover:underline"
-            >
-              ✏️ Edit
-            </button>
-          </div>
-
-          <pre className="bg-gray-100 p-2 rounded overflow-x-auto text-sm font-mono">
-            {snippet.code}
-          </pre>
-
-          {snippet.tags?.length > 0 && (
-            <div className="mt-2 text-xs text-gray-500">
-              Tags: {snippet.tags.join(", ")}
+            <div className="space-x-2">
+              <Link
+                to={`/preview/${snippet.id}`}
+                className="text-blue-600 text-sm hover:underline"
+              >
+                👁 Preview
+              </Link>
+              <button
+                onClick={() => onEdit(snippet)}
+                className="text-green-600 text-sm hover:underline"
+              >
+                ✏️ Edit
+              </button>
             </div>
-          )}
+          </div>
         </div>
       ))}
     </div>
