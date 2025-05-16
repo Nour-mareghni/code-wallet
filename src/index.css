@@ -70,3 +70,12 @@ body,
   padding: 0;
 }
 
+/* Optional: set background color for light/dark */
+body {
+  background-color: white;
+}
+
+.dark body {
+  background-color: #1a202c; /* Tailwind's gray-900 */
+}
+

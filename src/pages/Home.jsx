@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import SnippetList from "../features/snippets/SnippetList";
 import SnippetForm from "../features/snippets/SnippetForm";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Home() {
   const { snippets, addSnippet, updateSnippet } = useOutletContext();
@@ -42,8 +43,8 @@ export default function Home() {
 
   return (
     <div
-      className={`p-6 min-h-screen bg-gray-100 flex flex-col items-center relative ${
-        isDragging ? "bg-blue-100" : ""
+      className={`p-6 min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center relative ${
+        isDragging ? "bg-blue-100 dark:bg-blue-900" : ""
       }`}
       onDragOver={(e) => {
         e.preventDefault();
@@ -58,30 +59,32 @@ export default function Home() {
           <Link
             to="/"
             onClick={handleTitleClick}
-            className="hover:underline hover:text-blue-600 transition"
+            className="hover:underline hover:text-blue-600 dark:hover:text-blue-400 transition"
           >
             💼 Code Wallet
           </Link>
         </h1>
 
-        <Link
-          to="/tags"
-          className="text-blue-600 hover:underline text-sm"
-        >
-          Manage Tags
-        </Link>
-        <Link
-          to="/search"
-          className="text-blue-600 hover:underline text-sm ml-4"
-        >
-          🔍 Search by Tag
-        </Link>
-
+        <div className="flex gap-4 items-center">
+          <Link
+            to="/tags"
+            className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+          >
+            Manage Tags
+          </Link>
+          <Link
+            to="/search"
+            className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+          >
+            Search
+          </Link>
+          <ThemeToggle />
+        </div>
       </div>
 
       {/* Drag overlay */}
       {isDragging && (
-        <div className="absolute inset-0 bg-blue-100/80 flex items-center justify-center text-xl text-blue-700 font-semibold z-50 border-4 border-dashed border-blue-400 rounded">
+        <div className="absolute inset-0 bg-blue-100/80 dark:bg-blue-900/80 flex items-center justify-center text-xl text-blue-700 dark:text-blue-300 font-semibold z-50 border-4 border-dashed border-blue-400 dark:border-blue-600 rounded">
           Drop your code file here...
         </div>
       )}
@@ -89,11 +92,13 @@ export default function Home() {
       {/* Empty state */}
       {snippets.length === 0 ? (
         <div className="text-center space-y-6">
-          <p className="text-xl text-gray-600">Your wallet is empty 💸</p>
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            Your wallet is empty 💸
+          </p>
           {!showForm ? (
             <button
               onClick={() => setShowForm(true)}
-              className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700"
+              className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 dark:hover:bg-blue-800"
             >
               ADD MORE FUNDS
             </button>
@@ -119,7 +124,7 @@ export default function Home() {
                 setEditingSnippet(null);
                 setShowForm(true);
               }}
-              className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 mb-4"
+              className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 dark:hover:bg-blue-800 mb-4"
             >
               ADD MORE FUNDS
             </button>
