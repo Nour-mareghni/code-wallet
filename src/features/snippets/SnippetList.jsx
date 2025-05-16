@@ -1,23 +1,30 @@
 export default function SnippetList({ snippets, onEdit }) {
-  if (!snippets || snippets.length === 0) return null;
-
   return (
     <div className="space-y-4">
       {snippets.map((snippet) => (
-        <div key={snippet.id} className="bg-white p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">{snippet.title}</h3>
-          <pre className="bg-gray-100 p-2 mt-2 rounded text-sm overflow-x-auto">
-            {snippet.code}
-          </pre>
-          <div className="mt-2 flex justify-between items-center text-sm text-gray-600">
-            <div>Tags: {snippet.tags.join(", ")}</div>
+        <div
+          key={snippet.id}
+          className="bg-white p-4 rounded shadow border border-gray-200"
+        >
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="text-xl font-semibold">{snippet.title}</h2>
             <button
               onClick={() => onEdit(snippet)}
-              className="text-blue-600 hover:underline"
+              className="text-sm text-blue-600 hover:underline"
             >
-              Edit
+              ✏️ Edit
             </button>
           </div>
+
+          <pre className="bg-gray-100 p-2 rounded overflow-x-auto text-sm font-mono">
+            {snippet.code}
+          </pre>
+
+          {snippet.tags?.length > 0 && (
+            <div className="mt-2 text-xs text-gray-500">
+              Tags: {snippet.tags.join(", ")}
+            </div>
+          )}
         </div>
       ))}
     </div>

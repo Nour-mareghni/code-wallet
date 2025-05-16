@@ -7,6 +7,7 @@ export default function Home() {
   const [snippets, setSnippets] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingSnippet, setEditingSnippet] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const addSnippet = (newSnippet) => {
     setSnippets((prev) => [newSnippet, ...prev]);
@@ -31,8 +32,40 @@ export default function Home() {
     setEditingSnippet(null);
   };
 
+  // 🧲 Drag + Drop
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+
+    const text = await file.text();
+    const title = file.name.replace(/\.[^/.]+$/, ""); // Remove extension
+    const ext = file.name.split(".").pop();
+
+    const newSnippet = {
+      id: Date.now(),
+      title,
+      code: text,
+      tags: ["imported", ext],
+    };
+
+    addSnippet(newSnippet);
+  };
+
   return (
-    <div className="p-6 min-h-screen bg-gray-100 flex flex-col items-center">
+    <div
+      className={`p-6 min-h-screen bg-gray-100 flex flex-col items-center relative ${
+        isDragging ? "bg-blue-100" : ""
+      }`}
+      onDragOver={(e) => {
+        e.preventDefault();
+        setIsDragging(true);
+      }}
+      onDragLeave={() => setIsDragging(false)}
+      onDrop={handleDrop}
+    >
       <h1 className="text-4xl font-bold mb-8 text-center">
         <Link
           to="/"
@@ -42,6 +75,13 @@ export default function Home() {
           💼 Code Wallet
         </Link>
       </h1>
+
+      {/* Drop zone visual */}
+      {isDragging && (
+        <div className="absolute inset-0 bg-blue-100/80 flex items-center justify-center text-xl text-blue-700 font-semibold z-50 border-4 border-dashed border-blue-400 rounded">
+          Drop your code file here...
+        </div>
+      )}
 
       {snippets.length === 0 ? (
         <div className="text-center space-y-6">
