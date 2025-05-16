@@ -1,12 +1,12 @@
-import { useState } from "react";
+// App.jsx
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
 
 export default function App() {
   const [snippets, setSnippets] = useState([]);
 
-  // Functions to add/update snippets
-  const addSnippet = (newSnippet) => {
-    setSnippets((prev) => [newSnippet, ...prev]);
+  const addSnippet = (snippet) => {
+    setSnippets((prev) => [snippet, ...prev]);
   };
 
   const updateSnippet = (updated) => {
@@ -16,7 +16,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen p-4 bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       <Outlet context={{ snippets, addSnippet, updateSnippet }} />
     </div>
   );

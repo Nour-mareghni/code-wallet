@@ -70,6 +70,13 @@ export default function Home() {
         >
           Manage Tags
         </Link>
+        <Link
+          to="/search"
+          className="text-blue-600 hover:underline text-sm ml-4"
+        >
+          🔍 Search by Tag
+        </Link>
+
       </div>
 
       {/* Drag overlay */}
