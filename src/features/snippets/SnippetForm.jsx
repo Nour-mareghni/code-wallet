@@ -5,6 +5,8 @@ export default function SnippetForm({ onAddSnippet, onUpdateSnippet, editingSnip
   const [title, setTitle] = useState("");
   const [code, setCode] = useState("");
   const [tags, setTags] = useState("");
+  const storedTags = JSON.parse(localStorage.getItem("tags")) || [];
+
 
   useEffect(() => {
     if (editingSnippet) {
@@ -61,15 +63,44 @@ export default function SnippetForm({ onAddSnippet, onUpdateSnippet, editingSnip
       </div>
 
       {/* Tags Input Section */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Tags (comma separated)</label>
-        <input
-          type="text"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          className="w-full mt-1 p-2 border rounded"
-        />
-      </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Select Tags
+  </label>
+  <div className="flex flex-wrap gap-2 mb-2">
+    {storedTags.map((tag) => {
+      const tagList = tags.split(",").map((t) => t.trim());
+      const selected = tagList.includes(tag);
+      return (
+        <button
+          key={tag}
+          type="button"
+          className={`px-3 py-1 rounded-full text-sm ${
+            selected ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"
+          }`}
+          onClick={() => {
+            const updated = selected
+              ? tagList.filter((t) => t !== tag)
+              : [...tagList, tag];
+            setTags(updated.join(", "));
+          }}
+        >
+          {tag}
+        </button>
+      );
+    })}
+  </div>
+
+  {/* Optional custom tag input */}
+  <input
+    type="text"
+    value={tags}
+    onChange={(e) => setTags(e.target.value)}
+    className="w-full p-2 border rounded"
+    placeholder="Or type custom tags, comma separated"
+  />
+</div>
+
 
       <button
         type="submit"

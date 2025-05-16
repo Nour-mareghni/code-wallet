@@ -32,7 +32,6 @@ export default function Home() {
     setEditingSnippet(null);
   };
 
-  // 🧲 Drag + Drop
   const handleDrop = async (e) => {
     e.preventDefault();
     setIsDragging(false);
@@ -41,7 +40,7 @@ export default function Home() {
     if (!file) return;
 
     const text = await file.text();
-    const title = file.name.replace(/\.[^/.]+$/, ""); // Remove extension
+    const title = file.name.replace(/\.[^/.]+$/, "");
     const ext = file.name.split(".").pop();
 
     const newSnippet = {
@@ -66,23 +65,34 @@ export default function Home() {
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
     >
-      <h1 className="text-4xl font-bold mb-8 text-center">
-        <Link
-          to="/"
-          onClick={handleTitleClick}
-          className="hover:underline hover:text-blue-600 transition"
-        >
-          💼 Code Wallet
-        </Link>
-      </h1>
+      {/* Header */}
+      <div className="w-full max-w-4xl flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold">
+          <Link
+            to="/"
+            onClick={handleTitleClick}
+            className="hover:underline hover:text-blue-600 transition"
+          >
+            💼 Code Wallet
+          </Link>
+        </h1>
 
-      {/* Drop zone visual */}
+        <Link
+          to="/tags"
+          className="text-blue-600 hover:underline text-sm"
+        >
+          Manage Tags
+        </Link>
+      </div>
+
+      {/* Drag overlay */}
       {isDragging && (
         <div className="absolute inset-0 bg-blue-100/80 flex items-center justify-center text-xl text-blue-700 font-semibold z-50 border-4 border-dashed border-blue-400 rounded">
           Drop your code file here...
         </div>
       )}
 
+      {/* Empty state */}
       {snippets.length === 0 ? (
         <div className="text-center space-y-6">
           <p className="text-xl text-gray-600">Your wallet is empty 💸</p>
