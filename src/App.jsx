@@ -1,12 +1,21 @@
 // App.jsx
 import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 
 export default function App() {
-  const [snippets, setSnippets] = useState([]);
+  const [snippets, setSnippets] = useState(() => {
+    const saved = localStorage.getItem("snippets");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  const addSnippet = (snippet) => {
-    setSnippets((prev) => [snippet, ...prev]);
+  // Sync to localStorage whenever snippets change
+  useEffect(() => {
+    localStorage.setItem("snippets", JSON.stringify(snippets));
+  }, [snippets]);
+
+  const addSnippet = (newSnippet) => {
+    setSnippets((prev) => [newSnippet, ...prev]);
   };
 
   const updateSnippet = (updated) => {
@@ -16,7 +25,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen p-4 bg-gray-100 dark:bg-gray-900">
       <Outlet context={{ snippets, addSnippet, updateSnippet }} />
     </div>
   );
