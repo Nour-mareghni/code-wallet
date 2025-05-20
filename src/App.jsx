@@ -13,7 +13,9 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("snippets", JSON.stringify(snippets));
   }, [snippets]);
-
+  const deleteSnippet = (id) => {
+    setSnippets((prev) => prev.filter((s) => s.id !== id));
+  };
   const addSnippet = (newSnippet) => {
     setSnippets((prev) => [newSnippet, ...prev]);
   };
@@ -26,7 +28,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen p-4 bg-gray-100 dark:bg-gray-900">
-      <Outlet context={{ snippets, addSnippet, updateSnippet }} />
+      <Outlet context={{ snippets, addSnippet, updateSnippet, deleteSnippet }} />
+      
     </div>
   );
 }

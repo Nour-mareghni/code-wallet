@@ -5,7 +5,8 @@ import SnippetForm from "../features/snippets/SnippetForm";
 import ThemeToggle from "../components/ThemeToggle";
 
 export default function Home() {
-  const { snippets, addSnippet, updateSnippet } = useOutletContext();
+  const { snippets, addSnippet, updateSnippet, deleteSnippet } = useOutletContext();
+  
   const [showForm, setShowForm] = useState(false);
   const [editingSnippet, setEditingSnippet] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -134,7 +135,11 @@ export default function Home() {
             </button>
           )}
 
-          <SnippetList snippets={snippets} onEdit={handleEdit} />
+          <SnippetList
+  snippets={snippets}
+  onEdit={handleEdit}
+  onDelete={deleteSnippet}
+/>
         </div>
       )}
     </div>
