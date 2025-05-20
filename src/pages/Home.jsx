@@ -6,7 +6,8 @@ import ThemeToggle from "../components/ThemeToggle";
 
 export default function Home() {
   const { snippets, addSnippet, updateSnippet, deleteSnippet } = useOutletContext();
-  
+  const [showInfo, setShowInfo] = useState(false);
+
   const [showForm, setShowForm] = useState(false);
   const [editingSnippet, setEditingSnippet] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -43,7 +44,9 @@ export default function Home() {
   };
 
   return (
+    
     <div
+    
       className={`p-6 min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center relative ${
         isDragging ? "bg-blue-100 dark:bg-blue-900" : ""
       }`}
@@ -55,6 +58,18 @@ export default function Home() {
       onDrop={handleDrop}
     >
       {/* Header */}
+      
+
+      <Link
+        to="/info"
+        className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+        >
+          <button>
+        ℹ️ Info
+        </button>
+      </Link>
+
+
       <div className="w-full max-w-4xl flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">
           <Link
@@ -136,12 +151,14 @@ export default function Home() {
           )}
 
           <SnippetList
-  snippets={snippets}
-  onEdit={handleEdit}
-  onDelete={deleteSnippet}
-/>
+            snippets={snippets}
+            onEdit={handleEdit}
+            onDelete={deleteSnippet}
+          />
         </div>
+        
       )}
+      
     </div>
   );
 }
