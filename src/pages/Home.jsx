@@ -65,21 +65,25 @@ export default function Home() {
           </Link>
         </h1>
 
-        <div className="flex gap-4 items-center">
-          <Link
-            to="/tags"
-            className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
-          >
-            Manage Tags
-          </Link>
-          <Link
-            to="/search"
-            className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
-          >
-            Search
-          </Link>
-          <ThemeToggle />
-        </div>
+<div className="flex items-center">
+  <Link
+    to="/tags"
+    className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+  >
+    .     Manage Tags
+  </Link>
+  <Link
+    to="/search"
+    className="ml-4 text-blue-600 dark:text-blue-400 hover:underline text-sm"
+  >
+    .       Search
+  </Link>
+  <div className="m-6">
+    <ThemeToggle />
+  </div>
+</div>
+
+
       </div>
 
       {/* Drag overlay */}
