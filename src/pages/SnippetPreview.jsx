@@ -1,6 +1,8 @@
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Editor from "@monaco-editor/react";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { oneDark } from "@codemirror/theme-one-dark";
 
 
 export default function SnippetPreview() {
@@ -22,21 +24,16 @@ export default function SnippetPreview() {
       <h1 className="text-3xl font-bold mb-4 text-center">{snippet.title}</h1>
 
       {/* Code editor preview area */}
-      <div className="flex-1 border border-gray-300 rounded overflow-hidden">
-        <Editor
-          height="75vh"
-          value={snippet.code}
-          language="javascript"
-          theme="vs-dark"
-          options={{
-            readOnly: true,
-            fontSize: 14,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            automaticLayout: true,
-          }}
-        />
-      </div>
+    <div className="flex-1 border rounded overflow-hidden">
+      <CodeMirror
+        value={snippet.code}
+        height="75vh"
+        theme={oneDark}
+        extensions={[javascript()]}
+        editable={false}               // read-only
+        basicSetup={{ lineNumbers: true }}
+      />
+    </div>
 
       <button
         onClick={() => navigate(-1)}

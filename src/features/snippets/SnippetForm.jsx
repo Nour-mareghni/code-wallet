@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import Editor from "@monaco-editor/react"; // Import Monaco Editor
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { oneDark } from "@codemirror/theme-one-dark";
 
 export default function SnippetForm({ onAddSnippet, onUpdateSnippet, editingSnippet }) {
   const [title, setTitle] = useState("");
@@ -51,16 +53,19 @@ export default function SnippetForm({ onAddSnippet, onUpdateSnippet, editingSnip
       </div>
 
       {/* Code Editor Section */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Code</label>
-        <Editor
-          height="400px" // Height of the code editor
-          value={code}  // Value passed to Monaco Editor
-          onChange={(value) => setCode(value)}  // Update the code state when the editor changes
-          language="javascript" // Set language for syntax highlighting (JavaScript in this case)
-          theme="vs-dark"  // You can switch between themes like 'vs-light' and 'vs-dark'
+    <div>
+      <label className="block text-sm font-medium">Code</label>
+      <div className="h-[500px] border rounded overflow-hidden mt-1">
+        <CodeMirror
+          value={code}
+          height="100%"
+          theme={oneDark}
+          extensions={[javascript()]}      // swap language extension as needed
+          onChange={(value) => setCode(value)}
+          basicSetup={{ lineNumbers: true }}
         />
       </div>
+    </div>
 
       {/* Tags Input Section */}
 <div>

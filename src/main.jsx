@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import SnippetPreview from "./pages/SnippetPreview.jsx";
@@ -11,7 +11,7 @@ import Info from "./pages/Info.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
   <Route path="/" element={<App />}>
     <Route index element={<Home />} />
@@ -21,6 +21,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Route path="info" element={<Info />} /> {/* Add this line */}
   </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
