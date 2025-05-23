@@ -1,3 +1,4 @@
+// Main application entry point and routing configuration
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { HashRouter, Routes, Route } from "react-router-dom";
@@ -9,17 +10,30 @@ import "./index.css";
 import SearchByTag from "./pages/SearchByTag.jsx";
 import Info from "./pages/Info.jsx";
 
+// Create React root and render application
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    {/* HashRouter for client-side routing with hash-based navigation */}
     <HashRouter>
+      {/* Routes container for all route definitions */}
       <Routes>
-  <Route path="/" element={<App />}>
-    <Route index element={<Home />} />
-    <Route path="tags" element={<TagManager />} />
-    <Route path="search" element={<SearchByTag />} />
-    <Route path="preview/:id" element={<SnippetPreview />} />
-    <Route path="info" element={<Info />} /> {/* Add this line */}
-  </Route>
+        {/* Main App component as layout route */}
+        <Route path="/" element={<App />}>
+          {/* Index route (default/home page) */}
+          <Route index element={<Home />} />
+          
+          {/* Tag management route */}
+          <Route path="tags" element={<TagManager />} />
+          
+          {/* Search by tag route */}
+          <Route path="search" element={<SearchByTag />} />
+          
+          {/* Snippet preview route with dynamic ID parameter */}
+          <Route path="preview/:id" element={<SnippetPreview />} />
+          
+          {/* Application information page */}
+          <Route path="info" element={<Info />} />
+        </Route>
       </Routes>
     </HashRouter>
   </React.StrictMode>
